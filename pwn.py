@@ -241,7 +241,6 @@ class SQLi:
         spinner.start()
         self.client.post("/api/login.php", {"username": self.user, "password": pw})
         time.sleep(0.5)
-
         sid = self.client.cookies.get("PHPSESSID")
         if sid:
             spinner.stop("Session established")
