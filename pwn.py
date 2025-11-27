@@ -190,7 +190,6 @@ class HTTP:
             resp_body = resp.read()
             if VERBOSE:
                 self._debug_response(resp.status, resp_headers, resp_body)
-
             return Response(
                 status=resp.status,
                 headers=resp_headers,
@@ -303,7 +302,6 @@ class SQLi:
         flag_file = next((f for f in files if f.startswith("flag_") and f.endswith(".txt")), None)
         if flag_file:
             UI.substep(f"Target identified: /{flag_file}")
-
             spinner = Spinner(f"Reading flag contents...")
             spinner.start()
             time.sleep(0.5)
