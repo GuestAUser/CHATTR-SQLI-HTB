@@ -160,7 +160,6 @@ class HTTP:
             if len(decoded) > 200:
                 decoded = decoded[:200] + f"... ({len(body)} bytes)"
             print(f"\n{Term.DIM}{decoded}{Term.RESET}")
-
     def _debug_response(self, status: int, headers: Dict[str, str], body: bytes):
         """Print raw HTTP response for debugging"""
         print(f"\n{Term.MAGENTA}◀ RESPONSE{Term.RESET}")
