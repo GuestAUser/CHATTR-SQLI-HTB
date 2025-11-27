@@ -1,6 +1,6 @@
 # CHATTR GMBH — SQL Injection Exploit
 
-> **HTB Academy** • Skills Assessment • SQL Injection Fundamentals
+> **HTB Academy** • Skills Assessment • SQL Injection Fundamentals. 
 > **Exploit_Author:** LK10
 
 <div align="center">
